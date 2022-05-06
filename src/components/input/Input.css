@@ -1,0 +1,18 @@
+.Input__block {
+
+}
+
+
+.Input {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid #393636;
+  color: #fff;
+  font-size: 16px
+}
+
+.Input:focus {
+  outline: 0;
+  border: 1px solid #393636;
+  border-radius: 5px;
+}
