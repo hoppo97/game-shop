@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import { GameCover } from '../GameCover';
+import { GameCover } from '../Game/GameCover';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { axiosDeleteFromCart } from '../../redux/actions/actions';
 

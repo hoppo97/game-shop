@@ -16,7 +16,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={ <HomePage />} />
-            <Route path="/app/:title" element={ <GamePage />} />
+            <Route path="/app/:id" element={ <GamePage />} />
             <Route path="order" element={ <OrderPage />} />
           </Routes>
         </div>

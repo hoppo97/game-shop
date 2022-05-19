@@ -6,7 +6,7 @@ import thunk from "redux-thunk";
 import { legacy_createStore as createStore, applyMiddleware } from "redux";
 import {rootReducer} from './redux/rootReducer';
 import { Provider } from 'react-redux';
-
+import { composeWithDevTools } from '@redux-devtools/extension';
 import './index.css';
 
 const initialState = {};
@@ -15,7 +15,10 @@ const middleware = [thunk];
 const store = createStore(
   rootReducer,
   initialState,
-  applyMiddleware(...middleware)
+  composeWithDevTools(
+    applyMiddleware(...middleware)
+    // other store enhancers if any
+  )
 );
 
 

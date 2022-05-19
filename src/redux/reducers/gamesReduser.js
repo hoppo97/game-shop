@@ -1,7 +1,8 @@
-import {GET__GAMES} from '../types';
+import {GET__GAMES, LOADING} from '../types';
 
 const initialState = {
-  games: []
+  games: [],
+  loading: false,
 }
 
 export const gamesReducer = (state = initialState, action) => {
@@ -9,7 +10,12 @@ export const gamesReducer = (state = initialState, action) => {
     case GET__GAMES: 
     return {
       ...state,
-      games: action.payload.games
+      games: action.payload
+    }
+    case LOADING: 
+    return {
+      ...state,
+      loading: action.payload
     }
     default: return state;
   }

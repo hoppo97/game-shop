@@ -1,4 +1,4 @@
-import {DELETE__FROM__CART, ADD__TO__CART, CURRENT__GAME, GET__GAMES, GET__GAMES__TO_CART} from "../types";
+import {DELETE__FROM__CART, ADD__TO__CART, CURRENT__GAME, GET__GAMES, GET__GAMES__TO_CART, LOADING} from "../types";
 import axios from "axios";
 
 export function setItemInCart(game) {
@@ -25,7 +25,14 @@ export function setCurrentGame(game) {
 export function getGames(games) {
   return {
     type: GET__GAMES,
-    payload: {games}
+    payload: games
+  }
+}
+
+export function isLoading(loading) {
+  return {
+    type: LOADING,
+    payload: loading
   }
 }
 
@@ -35,21 +42,24 @@ export function getGamesToCart(games) {
     payload: {games}
   }
 }
-
+ 
 
 export const fetchGetGames = (query) => (dispatch, getState) => {
   try {
+    dispatch(isLoading(true));
     fetch("https://6263fc7598095dcbf929ae50.mockapi.io/games")
       .then((res) => res.json())
       .then((games) => {
-        const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query));
-        console.log(games);
-        console.log(filterGames(games));
+        const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
+        // console.log(games);
+        // console.log(filterGames(games))
         dispatch(getGames(!query ? games : filterGames(games)));
+        dispatch(isLoading(false));
       });
   } catch (error) {
     console.error(error);
   }
+
 };
 
 export const fetchGetGamesToCart = () => (dispatch, getState) => {
@@ -57,15 +67,14 @@ export const fetchGetGamesToCart = () => (dispatch, getState) => {
     fetch("https://6263fc7598095dcbf929ae50.mockapi.io/cart")
       .then((res) => res.json())
       .then((games) => {
-        console.log(games);
-        dispatch(getGamesToCart(games))
+        if(games) {
+          dispatch(getGamesToCart(games))
+        }
       });
   } catch (error) {
     console.error(error);
   }
 };
-
-
 
 export const axiosPostToCart = (game) => (dispatch, getState) => {
   try {
@@ -86,3 +95,15 @@ export const axiosDeleteFromCart = (id) => (dispatch, getState) => {
     console.error(error);
   }
 };
+
+export const getCurrentGame = (id) => (dispatch, getState) => {
+  try {
+    axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/currentGame/${id}`).then(res => {
+      const game = res.data;
+      dispatch(setCurrentGame(game));
+    });
+
+  } catch (error) {
+    console.error(error);
+  }
+}

@@ -11,7 +11,7 @@ export const currentGameReducer = (state = initialState, action) => {
     case CURRENT__GAME:
     return {
       ...state,
-      currentGame: {...action.payload}
+      currentGame: action.payload
     }
     default: return state;
   }
