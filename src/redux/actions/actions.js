@@ -1,4 +1,4 @@
-import {DELETE__FROM__CART, ADD__TO__CART, CURRENT__GAME, GET__GAMES, GET__GAMES__TO_CART, LOADING} from "../types";
+import {DELETE__FROM__CART, ADD__TO__CART, CURRENT__GAME, GET__GAMES, GET__GAMES__TO_CART, LOADING, SET__CURRENT_PAGE, SET__TOTAL__COUNT} from "../types";
 import axios from "axios";
 
 export function setItemInCart(game) {
@@ -42,18 +42,33 @@ export function getGamesToCart(games) {
     payload: {games}
   }
 }
- 
 
-export const fetchGetGames = (query) => (dispatch, getState) => {
+  export function setCurrnetPage(currentPage) {
+    return {
+      type: SET__CURRENT_PAGE,
+      payload: currentPage
+    }
+}
+
+  export function setTotalCount(totalCount) {
+    return {
+      type: SET__TOTAL__COUNT,
+      payload: totalCount
+    }
+}
+    
+
+export const fetchGetGames = (query, currentPage, pageSize) => (dispatch, getState) => {
   try {
     dispatch(isLoading(true));
-    fetch("https://6263fc7598095dcbf929ae50.mockapi.io/games")
+    fetch(`https://6263fc7598095dcbf929ae50.mockapi.io/games?page=${currentPage}&limit=${pageSize}`)
       .then((res) => res.json())
       .then((games) => {
         const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
-        // console.log(games);
+        // console.log(games.length * pageSize);
         // console.log(filterGames(games))
         dispatch(getGames(!query ? games : filterGames(games)));
+        dispatch(setCurrnetPage(currentPage));
         dispatch(isLoading(false));
       });
   } catch (error) {
