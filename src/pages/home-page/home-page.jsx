@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GameItem } from '../../components/Game/GameItem/GameItem';
-import {   fetchGetGames, fetchGetGamesToCart, isLoading, setCurrnetPage  } from '../../redux/actions/actions';
+import { fetchGetGames, fetchGetGamesToCart, getTotalCount } from '../../redux/actions/actions';
 import SceletonComponent  from '../../components/SkeletonComponent/SkeletonComponent';
 import './home-page.css';
+import { Pagination } from '../../components/Pagination';
 
 // const GAMES = [
 //   {
@@ -71,7 +72,6 @@ export const HomePage = () => {
   const dispatch = useDispatch();
  
   const pagesCount = Math.ceil(totalUsersCount / pageSize);
-
   const pages = [];
 
   for(let i = 1; i <= pagesCount; i++) {
@@ -81,27 +81,29 @@ export const HomePage = () => {
   console.log(pagesCount);
 
   React.useEffect(() => {
-    dispatch(fetchGetGames('', currentPage, pageSize));
+    dispatch(fetchGetGames());
+    
     dispatch(fetchGetGamesToCart());
   }, []);
 
   const dispatchCurrentPage = (page) => {
-    dispatch(fetchGetGames('', page, pageSize));
+    dispatch(fetchGetGames(page));
   }
 
   console.log('компонент');
 
   return (
     <>
-      <div className="home-page">
+      <div className="Home-page">
         {!loading ? GAMES.map(game => (
           <GameItem game={game}  key={game.id}/>
           )) :  [...Array(4)].map(index => (<SceletonComponent key={index}/>))}
       </div>
-      <div style={{ marginTop: '20px',}}>
-        {pages.map(page => {
-          return <span onClick={() => dispatchCurrentPage(page)} className={`${currentPage === page && "home-page__span-select"}`}>{page}</span>
-        })}
+      <div className="Home-page__pagination">
+        {pages.map(page => (
+          <Pagination dispatchCurrentPage={dispatchCurrentPage} currentPage={currentPage} page={page} key={page}/>
+        )
+        )}
       </div>
   </>
   )
