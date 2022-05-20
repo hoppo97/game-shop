@@ -57,27 +57,34 @@ export function getGamesToCart(games) {
     }
 }
     
-export const searchGames = (query) => (dispatch, getState) => {
+export const searchGames = (query) => async (dispatch, getState) => {
+  const {gamesReducer} = getState();
+  const {currentPage, pageSize} = gamesReducer;
 
+  const {data} = await axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/games?page=${currentPage}&limit=${pageSize}`)
+  const games = data;
+  const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
+
+  dispatch(getGames(filterGames(games)));
 }
 
-
-
-export const fetchGetGames = (query, currentPage, pageSize) => async (dispatch, getState) => {
+export const fetchGetGames = (page) => async (dispatch, getState) => {
   try {
     dispatch(isLoading(true));
-    console.log(getState()); 
+    if(page) {
+      dispatch(setCurrnetPage(page));
+    }
+    const {gamesReducer} = getState();
+    const {pageSize, currentPage} = gamesReducer;
+
     const {data} = await axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/games?page=${currentPage}&limit=${pageSize}`)
     const games = data;
-      const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
-
-      dispatch(getGames(!query ? games : filterGames(games)));
-      dispatch(setCurrnetPage(currentPage));
-      dispatch(isLoading(false));
+    
+    dispatch(getGames((games)));
+    dispatch(isLoading(false));
   } catch (error) {
     console.error(error);
   }
-
 };
 
 export const fetchGetGamesToCart = () => async (dispatch, getState) => {
