@@ -57,35 +57,36 @@ export function getGamesToCart(games) {
     }
 }
     
+export const searchGames = (query) => (dispatch, getState) => {
 
-export const fetchGetGames = (query, currentPage, pageSize) => (dispatch, getState) => {
+}
+
+
+
+export const fetchGetGames = (query, currentPage, pageSize) => async (dispatch, getState) => {
   try {
     dispatch(isLoading(true));
-    fetch(`https://6263fc7598095dcbf929ae50.mockapi.io/games?page=${currentPage}&limit=${pageSize}`)
-      .then((res) => res.json())
-      .then((games) => {
-        const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
-        // console.log(games.length * pageSize);
-        // console.log(filterGames(games))
-        dispatch(getGames(!query ? games : filterGames(games)));
-        dispatch(setCurrnetPage(currentPage));
-        dispatch(isLoading(false));
-      });
+    console.log(getState()); 
+    const {data} = await axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/games?page=${currentPage}&limit=${pageSize}`)
+    const games = data;
+      const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
+
+      dispatch(getGames(!query ? games : filterGames(games)));
+      dispatch(setCurrnetPage(currentPage));
+      dispatch(isLoading(false));
   } catch (error) {
     console.error(error);
   }
 
 };
 
-export const fetchGetGamesToCart = () => (dispatch, getState) => {
+export const fetchGetGamesToCart = () => async (dispatch, getState) => {
   try {
-    fetch("https://6263fc7598095dcbf929ae50.mockapi.io/cart")
-      .then((res) => res.json())
-      .then((games) => {
-        if(games) {
-          dispatch(getGamesToCart(games))
-        }
-      });
+    const {data} = await axios.get("https://6263fc7598095dcbf929ae50.mockapi.io/cart");
+    const games = data;
+      if(games) {
+        dispatch(getGamesToCart(games))
+      }
   } catch (error) {
     console.error(error);
   }
@@ -94,7 +95,6 @@ export const fetchGetGamesToCart = () => (dispatch, getState) => {
 export const axiosPostToCart = (game) => (dispatch, getState) => {
   try {
     axios.post("https://6263fc7598095dcbf929ae50.mockapi.io/cart", game);
-    console.log(game);
     dispatch(setItemInCart(game))
   } catch (error) {
     console.error(error);
@@ -104,19 +104,17 @@ export const axiosPostToCart = (game) => (dispatch, getState) => {
 export const axiosDeleteFromCart = (id) => (dispatch, getState) => {
   try {
     axios.delete(`https://6263fc7598095dcbf929ae50.mockapi.io/cart/${id}`);
-    console.log(id);
     dispatch(deleteItemFromCart(id))
   } catch (error) {
     console.error(error);
   }
 };
 
-export const getCurrentGame = (id) => (dispatch, getState) => {
+export const  getCurrentGame = (id) => async (dispatch, getState) => {
   try {
-    axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/currentGame/${id}`).then(res => {
-      const game = res.data;
-      dispatch(setCurrentGame(game));
-    });
+    const {data} = await axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/currentGame/${id}`);
+    const game = data;
+    dispatch(setCurrentGame(game));
 
   } catch (error) {
     console.error(error);
