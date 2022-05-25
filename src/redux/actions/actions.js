@@ -51,16 +51,21 @@ export function getGamesToCart(games) {
 }
 
 
-export const searchGames = (query) => async (dispatch, getState) => {
-  const {
+const get = async (getState) => {
+  const { 
     gamesReducer: { currentPage, pageSize },
   } = getState();
 
   const {data} = await axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/games?page=${currentPage}&limit=${pageSize}`)
-  const games = data;
+  return data;
+}
 
+export const searchGames = (query) => async (dispatch, getState) => {
+ 
+  const games = await get(getState);
+
+  console.log(games);
   const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
-
   dispatch(getGames(filterGames(games)));
 }
 
@@ -72,12 +77,7 @@ export const fetchGetGames = (page) => async (dispatch, getState) => {
       dispatch(setCurrnetPage(page));
     }
 
-    const {
-      gamesReducer: { currentPage, pageSize },
-    } = getState();
-
-    const {data} = await axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/games?page=${currentPage}&limit=${pageSize}`)
-    const games = data;
+    const games = await get(getState);
     
     dispatch(getGames((games)));
     dispatch(isLoading(false));
