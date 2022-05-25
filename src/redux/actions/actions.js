@@ -1,5 +1,7 @@
-import {DELETE__FROM__CART, ADD__TO__CART, CURRENT__GAME, GET__GAMES, GET__GAMES__TO_CART, LOADING, SET__CURRENT_PAGE, SET__TOTAL__COUNT} from "../types";
+import {DELETE__FROM__CART, ADD__TO__CART, CURRENT__GAME, GET__GAMES, GET__GAMES__TO_CART, LOADING, SET__CURRENT_PAGE} from "../types";
 import axios from "axios";
+import {AXIOS_CONFIG} from '../../axios.config';
+const { CART_API, CURRENT_GAME_API, GAMES_API_WITH_PARAMS, } = AXIOS_CONFIG;
 
 export function setItemInCart(game) {
   return {
@@ -50,29 +52,36 @@ export function getGamesToCart(games) {
     }
 }
 
-
 const get = async (getState) => {
-  const { 
-    gamesReducer: { currentPage, pageSize },
-  } = getState();
+  try {
+    const { 
+      gamesReducer: { currentPage, pageSize },
+    } = getState();
 
-  const {data} = await axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/games?page=${currentPage}&limit=${pageSize}`)
-  return data;
+    const {data} = await axios.get(GAMES_API_WITH_PARAMS(currentPage, pageSize))
+    return data;
+    
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export const searchGames = (query) => async (dispatch, getState) => {
- 
-  const games = await get(getState);
+  try {
+    const games = await get(getState);
 
-  console.log(games);
   const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
   dispatch(getGames(filterGames(games)));
+  } catch (error) {
+    console.log(error);
+  }
+
+  
 }
 
 export const fetchGetGames = (page) => async (dispatch, getState) => {
   try {
     dispatch(isLoading(true));
-
     if(page) {
       dispatch(setCurrnetPage(page));
     }
@@ -88,7 +97,7 @@ export const fetchGetGames = (page) => async (dispatch, getState) => {
 
 export const fetchGetGamesToCart = () => async (dispatch, getState) => {
   try {
-    const {data} = await axios.get("https://6263fc7598095dcbf929ae50.mockapi.io/cart");
+    const {data} = await axios.get(CART_API);
     const games = data;
 
       if(games) {
@@ -101,7 +110,7 @@ export const fetchGetGamesToCart = () => async (dispatch, getState) => {
 
 export const axiosPostToCart = (game) => (dispatch, getState) => {
   try {
-    axios.post("https://6263fc7598095dcbf929ae50.mockapi.io/cart", game);
+    axios.post(CART_API, game);
     dispatch(setItemInCart(game))
   } catch (error) {
     console.error(error);
@@ -110,16 +119,16 @@ export const axiosPostToCart = (game) => (dispatch, getState) => {
 
 export const axiosDeleteFromCart = (id) => (dispatch, getState) => {
   try {
-    axios.delete(`https://6263fc7598095dcbf929ae50.mockapi.io/cart/${id}`);
+    axios.delete(`${CART_API}/${id}`);
     dispatch(deleteItemFromCart(id))
   } catch (error) {
     console.error(error);
   }
 };
 
-export const  getCurrentGame = (id) => async (dispatch, getState) => {
+export const getCurrentGame = (id) => async (dispatch, getState) => {
   try {
-    const {data} = await axios.get(`https://6263fc7598095dcbf929ae50.mockapi.io/currentGame/${id}`);
+    const {data} = await axios.get(`${CURRENT_GAME_API}/${id}`);
     const game = data;
     dispatch(setCurrentGame(game));
 
