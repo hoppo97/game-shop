@@ -1,0 +1,19 @@
+
+.pagination {
+  cursor: pointer;
+  margin-left: 10px;
+  width: 25px;
+  height: 25px;
+  background-color: rgb(85, 88, 237);
+  border-radius: 50%;
+  text-align: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pagination:hover {
+  background-color: rgb(67, 69, 203);
+}
+
+.home-page__span-select {
+  border: 1px solid #fff;
+}

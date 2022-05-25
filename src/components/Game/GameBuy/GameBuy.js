@@ -7,6 +7,7 @@ import { axiosDeleteFromCart, axiosPostToCart, } from '../../../redux/actions/ac
 export const GameBuy = ({ game }) => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state?.changeCartReducer.itemsInCart);
+  console.log(items);
 
   const isItemInCart = items && items.some(item => parseInt(item.id) === game.id);
   
@@ -15,9 +16,10 @@ export const GameBuy = ({ game }) => {
     e.stopPropagation();
     if( isItemInCart ) {
       dispatch(axiosDeleteFromCart(game.id));
+      console.log(isItemInCart);
     } else {
       dispatch(axiosPostToCart(game));
-      console.log(items);
+      console.log(isItemInCart);
     }
   }
  

@@ -17,19 +17,13 @@ const store = createStore(
   initialState,
   composeWithDevTools(
     applyMiddleware(...middleware)
-    // other store enhancers if any
   )
 );
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
     <Provider store={store} >
       <App />
     </Provider>
 );
-
-
-// "react-hooks/exhaustive-deps": ["off", {
-//   "additionalHooks": "useDispatch|useOtherHookWhichWillDefinitelyNotChange"
-// }],

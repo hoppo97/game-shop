@@ -1,6 +1,6 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGetGames } from '../../redux/actions/actions'
+import { useDispatch } from 'react-redux';
+import {  searchGames } from '../../redux/actions/actions'
 import './Input.css';
 import * as _ from 'lodash';
 
@@ -10,7 +10,7 @@ export const Input = () => {
   const delayedQuery = React.useCallback(
     _.debounce((q) => {
       console.log();
-      dispatch(fetchGetGames(q));
+      dispatch(searchGames(q));
     }, 500),
     []
   );

@@ -1,15 +1,13 @@
-.home-page {
+.Home-page {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 100px;
 }
 
-.home-page__span {
-  cursor: pointer;
-  margin-left: 10px;
+.Home-page__pagination {
+  display: flex;
+  justify-content: center;
+  
   padding: 20px;
-}
-
-.home-page__span-select {
-  border: 1px solid #fff;
 }
