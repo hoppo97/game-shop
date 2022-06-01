@@ -8,7 +8,6 @@ export const GameBuy = ({ game }) => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state?.changeCartReducer.itemsInCart);
   console.log(items);
-
   const isItemInCart = items && items.some(item => parseInt(item.id) === game.id);
   
   const handleClick = (e) => {

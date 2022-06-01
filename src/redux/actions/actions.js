@@ -7,50 +7,50 @@ export function setItemInCart(game) {
   return {
     type: ADD__TO__CART,
     game
-  }
-}
+  };
+};
 
 export function deleteItemFromCart(id) {
   return {
     type: DELETE__FROM__CART,
     payload: id
-  }
-}
+  };
+};
 
 export function setCurrentGame(game) {
   return {
     type: CURRENT__GAME,
     payload: game
-  }
-}
+  };
+};
 
 export function getGames(games) {
   return {
     type: GET__GAMES,
     payload: games
-  }
-}
+  };
+};
 
 export function isLoading(loading) {
   return {
     type: LOADING,
     payload: loading
-  }
-}
+  };
+};
 
 export function getGamesToCart(games) {
   return {
     type: GET__GAMES__TO_CART,
     payload: {games}
-  }
-}
+  };
+};
 
   export function setCurrnetPage(currentPage) {
     return {
       type: SET__CURRENT_PAGE,
       payload: currentPage
-    }
-}
+    };
+};
 
 const get = async (getState) => {
   try {
@@ -63,21 +63,20 @@ const get = async (getState) => {
     
   } catch (error) {
     console.log(error);
-  }
-}
+  };
+};
 
 export const searchGames = (query) => async (dispatch, getState) => {
   try {
     const games = await get(getState);
 
-  const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
-  dispatch(getGames(filterGames(games)));
+    const filterGames = games => games.filter((game) => game.title.toLowerCase().includes(query.toLowerCase()));
+    dispatch(getGames(filterGames(games)));
+
   } catch (error) {
     console.log(error);
-  }
-
-  
-}
+  };
+};
 
 export const fetchGetGames = (page) => async (dispatch, getState) => {
   try {
@@ -92,7 +91,7 @@ export const fetchGetGames = (page) => async (dispatch, getState) => {
     dispatch(isLoading(false));
   } catch (error) {
     console.error(error);
-  }
+  };
 };
 
 export const fetchGetGamesToCart = () => async (dispatch, getState) => {
@@ -101,29 +100,29 @@ export const fetchGetGamesToCart = () => async (dispatch, getState) => {
     const games = data;
 
       if(games) {
-        dispatch(getGamesToCart(games))
+        dispatch(getGamesToCart(games));
       }
   } catch (error) {
     console.error(error);
-  }
+  };
 };
 
 export const axiosPostToCart = (game) => (dispatch, getState) => {
   try {
     axios.post(CART_API, game);
-    dispatch(setItemInCart(game))
+    dispatch(setItemInCart(game));
   } catch (error) {
     console.error(error);
-  }
+  };
 };
 
 export const axiosDeleteFromCart = (id) => (dispatch, getState) => {
   try {
     axios.delete(`${CART_API}/${id}`);
-    dispatch(deleteItemFromCart(id))
+    dispatch(deleteItemFromCart(id));
   } catch (error) {
     console.error(error);
-  }
+  };
 };
 
 export const getCurrentGame = (id) => async (dispatch, getState) => {
@@ -134,5 +133,5 @@ export const getCurrentGame = (id) => async (dispatch, getState) => {
 
   } catch (error) {
     console.error(error);
-  }
-}
+  };
+};

@@ -100,10 +100,10 @@ export const HomePage = () => {
           )) :  [...Array(4)].map(index => (<SceletonComponent key={index}/>))}
       </div>
       <div className="Home-page__pagination">
-        {pages.map(page => (
+        {GAMES.length > 0 ? pages.map(page => (
           <Pagination dispatchCurrentPage={dispatchCurrentPage} currentPage={currentPage} page={page} key={page}/>
         )
-        )}
+        ) : <h1>По вашему запросу ничего не нашлось!</h1>} 
       </div>
   </>
   )
