@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GameItem } from '../../components/Game/GameItem/GameItem';
-import { fetchGetGames, fetchGetGamesToCart, getTotalCount } from '../../redux/actions/actions';
+import { fetchGetGames, fetchGetGamesToCart } from '../../redux/actions/actions';
 import SceletonComponent  from '../../components/SkeletonComponent/SkeletonComponent';
 import './home-page.css';
 import { Pagination } from '../../components/Pagination';
