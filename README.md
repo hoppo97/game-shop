@@ -14,4 +14,4 @@
 
 ## Технологии
 
-`CSS React, React-router, Redux, Redux-thunk, axios`
+`CSS React, React-router, Redux, Redux-thunk, axios Lodash.Debounce`
