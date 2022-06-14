@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import './button.css';
-
-export const Button = ({ onClick, type, children, size = 's' }) => {
+import  useWhyDidYouUpdate  from 'ahooks/lib/useWhyDidYouUpdate';
+export const Button = React.memo(({ onClick, type, children, size = 's' }) => {
+  useWhyDidYouUpdate('Button', {onClick, type, children, size})
   const btnClass = classNames({
       'btn': true,
       'btn--secondary': type === 'secondary',
@@ -19,4 +20,4 @@ export const Button = ({ onClick, type, children, size = 's' }) => {
           { children }
       </button>
   )
-}
+});

@@ -3,29 +3,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import './GameBuy.css'
 import { Button } from '../../button/button';
 import { axiosDeleteFromCart, axiosPostToCart, } from '../../../redux/actions/actions';
+// import  useWhyDidYouUpdate  from 'ahooks/lib/useWhyDidYouUpdate';
 
-export const GameBuy = ({ game }) => {
+
+export const GameBuy = React.memo(({ game }) => {
+  // useWhyDidYouUpdate('GameBuy', {game})
   const dispatch = useDispatch();
-  const items = useSelector((state) => state?.changeCartReducer.itemsInCart);
-  console.log(items);
 
+  const items = useSelector((state) => state?.changeCartReducer.itemsInCart);
   const isItemInCart = items && items.some(item => parseInt(item.id) === parseInt(game.id));
 
-  console.log(game.id);
-
-  console.log(isItemInCart);
-
-  const handleClick = (e) => {
-    console.log('22');
+  const handleClick = React.useCallback((e) => {
     e.stopPropagation();
     if( isItemInCart ) {
       dispatch(axiosDeleteFromCart(game.id));
-      console.log(isItemInCart);
     } else {
       dispatch(axiosPostToCart(game));
-      console.log(isItemInCart);
     }
-  }
+  }, [isItemInCart])
  
   return (
     <div className="GameBuy">
@@ -38,5 +33,5 @@ export const GameBuy = ({ game }) => {
         </Button>
     </div>
   )
-}
+});
 
