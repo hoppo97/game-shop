@@ -2,7 +2,7 @@ import React from 'react';
 import {CartBlock} from '../Cart/CartBlock';
 import {Link, Route, Routes} from 'react-router-dom';
 import './Header.css';
-import { Input } from '../input';
+import { Input } from '../UI/input';
 
 export const Header = () => {
   return (

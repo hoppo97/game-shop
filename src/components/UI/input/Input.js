@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import {  searchGames } from '../../redux/actions/actions'
+import {  searchGames } from '../../../redux/actions/actions'
 import './Input.css';
 import * as _ from 'lodash';
 

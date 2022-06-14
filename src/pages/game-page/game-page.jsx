@@ -14,16 +14,7 @@ export const GamePage = () => {
     if (game?.id !== id) {
       dispatch(getCurrentGame(Number(id)));
     }
-    console.log('Компонент монтирован');
   }, []);
-
-  React.useEffect(() => {
-    return () => {
-      // dispatch(setCurrentGame(null));
-      console.log('Компонент удалился');
-    }
-  }, []);
-
 
   if (!game) return null;
 

@@ -8,8 +8,13 @@ export const GameBuy = ({ game }) => {
   const dispatch = useDispatch();
   const items = useSelector((state) => state?.changeCartReducer.itemsInCart);
   console.log(items);
-  const isItemInCart = items && items.some(item => parseInt(item.id) === game.id);
-  
+
+  const isItemInCart = items && items.some(item => parseInt(item.id) === parseInt(game.id));
+
+  console.log(game.id);
+
+  console.log(isItemInCart);
+
   const handleClick = (e) => {
     console.log('22');
     e.stopPropagation();

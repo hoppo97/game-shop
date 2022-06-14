@@ -3,7 +3,7 @@ import "./CartBlock.css";
 import { useSelector } from "react-redux";
 import { BiCartAlt } from "react-icons/bi";
 import { CartMenu } from "../CartMenu";
-import { ItemsInCart } from "../../ItemsInCart";
+import { ItemsInCart } from "../ItemsInCart";
 import { totalCalcPrice } from "../../utils";
 import { useNavigate } from "react-router-dom";
 
